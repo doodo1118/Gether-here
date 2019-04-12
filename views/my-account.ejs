@@ -1,0 +1,526 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>가천대학교 강의실예약시스템</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="images/shortcut-icon.jpg">
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Cusom css -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Modernizer js -->
+    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+    
+    <!--email인증 -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <script>
+        var check1, check2;//인증완료 유무검사 변수 
+        
+        $(document).ready(function() {
+            
+            $("#send_email").click(function() {
+                to = $("#to").val() +"@gc.gachon.ac.kr";
+                $("#message").text("이메일 전송 중입니다. 잠시만 기다려주세요. 전송이 완료되지 않으면 입력된 정보가 정확한지 확인해주시기 바랍니다.");
+                $.get("http://localhost:3000/sendEmail", {
+                    to: to
+                }, function(data) {
+                    if (data == "sent") {
+                        $("#to").attr("readonly",true).attr("disabled",false); //입력 불가하도록
+                        $("#message").empty().html("<p>이메일이 " + to + " 로 전송되었습니다.<br>메일함을 확인해주시기 바랍니다.</p>");
+                    }
+
+                });
+            });
+
+             $("#check_emailNum").click(function(){
+                var emailNum = $("#emailNum").val();
+                $.get("http://localhost:3000/verifyEmail", {
+                    emailNum: emailNum
+                }, function(data) {
+                    if(data == "checked") {
+                        
+                        $("#emailNum").attr("readonly",true).attr("disabled",false); //입력 불가하도록
+                        $("#message1").empty().html("<p>인증을 성공적으로 완료하였습니다.</p>");
+                        check1 = 'ok'; //뒤에서 인증완료됐는지 확인하는 변수
+                    }
+                    if(data == "error") {
+                        $("#message1").empty().html("<p>잘못된 인증번호입니다.</p>");
+                        check1 = 'not ok';
+                    }
+                });
+            });    
+
+              $("#send_sms").click(function(){
+                    var phoneNum = $("#phoneNum").val(); 
+                    $.get("http://localhost:3000/sendSms", {
+                        phoneNum : phoneNum
+                    },function(data){
+                        if(data == "sent") {
+                            $("#phoneNum").attr("readonly",true).attr("disabled",false); //입력 불가하도록
+                            $("#message2").empty().html("<p>인증번호 발송을 완료하였습니다.</p>");
+                    }
+                    if(data == "error") {
+                        $("#message2").empty().html("<p>인증번호 발송을 요청했습니다. 인증번호가 오지 않으면 입력된 정보가 정확한지 확인해주시기 바랍니다.</p>");
+                    }
+                });
+            });
+            
+            $("#check_smsNum").click(function(){
+                var smsNum = $("#smsNum").val();
+                $.get("http://localhost:3000/verifySms", {
+                    smsNum : smsNum
+                  }, function(data){
+                    if(data == "checked") {
+                        $("#smsNum").attr("readonly",true).attr("disabled",false); //입력 불가하도록
+                        $("#message3").empty().html("<p>인증을 성공적으로 완료하였습니다.</p>");
+                        check2 = 'ok'; //뒤에서 인증완료됐는지 확인하는 변수
+                    }
+                    if(data == "error") {
+                        $("#message3").empty().html("<p>잘못된 인증번호입니다.</p>");
+                        check2 = 'not ok';
+                    }
+                });
+            });
+            
+            $("#signup").click(function(){
+                
+                //빈칸 유무검사
+                if($("#to").val() == "")
+                    $("#message4").empty().html("이메일 아이디를 입력해주시기 바랍니다.");
+                else if($("#emailNum").val() == "")
+                    $("#message4").empty().html("이메일 인증번호를 입력해주시기 바랍니다.");
+                else if($("#phoneNum").val() == "")
+                    $("#message4").empty().html("휴대폰번호를 입력해주시기 바랍니다.");
+                else if($("#smsNum").val() == "")
+                    $("#message4").empty().html("휴대폰 인증번호를 입력해주시기 바랍니다.");
+                else if($("#password").val() == "")
+                    $("#message4").empty().html("비밀번호를 입력해주시기 바랍니다.");
+                else if($("#password_check").val() == "")
+                    $("#message4").empty().html("비밀번호 확인을 입력해주시기 바랍니다.");
+                
+                //비밀번호 확인
+                else if($("#password").val() != $("#password_check").val())
+                    $("#message4").empty().html("비밀번호가 동일하지 않습니다. 다시 입력해주시기 바랍니다");
+                
+                //인증 완료 유무검사
+                else if(check1 != 'ok' )
+                    $("#message4").empty().html("이메일 인증을 완료해주세요.");
+                else if(check2 != 'ok')
+                    $("#message4").empty().html("휴대폰 인증을 완료해주세요.");
+                
+                
+                else{
+                    $("#password").attr("readonly",true).attr("disabled",false); //입력 불가하도록
+                    $("#password_check").attr("readonly",true).attr("disabled",false); //입력 불가하도록
+                    var phoneNum = $("#phoneNum").val(); 
+                    var to = $("#to").val();
+                    var password = $("#password").val();
+                    
+                    $.get("http://localhost:3000/doubleCheck", {
+                        to : to, phoneNum : phoneNum
+                    },function(data){
+                        
+                        if(data == "existId") {
+                            $("#to").attr("readonly",false).attr("disabled",false); //입력불가 해제
+                            $("#message4").empty().html("<p>이미 등록된 아이디입니다.</p>");
+                        }
+                        if(data == "existPhoneNum"){
+                            $("#phoneNum").attr("readonly",false).attr("disabled",false); //입력불가 해제
+                            $("#message4").empty().html("<p>이미 등록된 휴대폰번호입니다.</p>");
+                        }
+                        if(data == "success"){
+                            alert('회원가입이 성공적으로 완료되었습니다. 환영합니다.');
+                            
+                            //db에 사용자 데이터 추가
+                            $.get("http://localhost:3000/addUser", {
+                                to: to, phoneNum: phoneNum, password: password
+                            }, function(data){
+                                
+                                if(data == "completed"){
+                                    location.reload();
+                                }
+                                   
+                            });
+                        }
+                    }); 
+                    
+                   
+                    }
+                
+                
+                
+                
+            });
+            
+            $("#login").click(function(){
+                var login_id = $("#login_id").val();
+                var login_password = $("#login_password").val();
+                
+                //빈칸 유무검사
+                if($("#login_id").val() == "")
+                    $("#message5").empty().html("이메일 아이디를 입력해주시기 바랍니다.");
+                else if($("#login_password").val() == "")
+                    $("#message5").empty().html("비밀번호를 입력해주시기 바랍니다.");
+                //db에서 입력된 정보가 있는지 조회
+                else{
+                    $.get("http://localhost:3000/authUser", {
+                        login_id, login_password
+                    },function(data){
+                        if(data == "auth"){
+                            alert('로그인되었습니다.'); 
+                            $.get("http://localhost:3000/login",{
+                                login_id, login_password
+                            });
+                            window.location.href = 'http://localhost:3000'; //로그인 후 홈으로 이동
+                        }
+                        if(data == 'fail'){
+                            $("#message5").empty().html("입력하신 아이디와 비밀번호를 다시 확인해주시기 바랍니다.");
+                        }
+                        
+                    });
+                
+                }
+            
+            });
+            $("#admin_login").click(function(){
+                var admin_id = $("#admin_id").val();
+                var admin_password = $("#admin_password").val();
+                
+                if($("#admin_id").val() == "")
+                    $("#message6").empty().html("관리자 아이디를 입력해주시기 바랍니다.");
+                else if($("#admin_password").val() == "")
+                    $("#message6").empty().html("비밀번호를 입력해주시기 바랍니다.");
+                else{
+                    $.get("http://localhost:3000/adminAuth", {
+                        admin_id, admin_password
+                    },function(data){
+                        if(data == "auth"){
+                            alert("관리자로 로그인되었습니다.");
+                            $.get("http://localhost:3000/adminLogin",{
+                                admin_id, admin_password
+                            });
+                            window.location.href = "http://localhost:3000";
+                        }
+                        if(data == "fail")
+                            $("#message6").empty().html("입력하시 아이디와 비밀번호를 다시 확인해주시기 바랍니다.");
+                    });
+                }
+            });
+            
+        });
+        
+       
+        
+    </script>
+    
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Pre Loader
+	============================================ -->
+    
+    <!-- Main wrapper -->
+    <div class="wrapper" id="wrapper">
+        <!-- Start Header Area -->
+        <header class="htc__header bg--white">
+            <!-- Start Mainmenu Area -->
+            <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
+                            <div class="logo">
+                                <a href="/">
+                                    <img src="images/logo/logo.png" alt="logo images">
+                                </a>
+                            </div>
+                        </div>
+                         <div class="col-lg-9 col-sm-4 col-md-2 order-3 order-lg-2">
+                            <div class="main__menu__wrap">
+                                <nav class="main__menu__nav d-none d-lg-block">
+                                    <ul class="mainmenu">
+                                        <li class="drop"><a href="/">홈</a></li>
+
+                                        <li class="drop"><a href="/menu-list">예약하기</a>
+                                            <ul class="dropdown__menu">
+                                                <li><a href="/menu-list">강의동 조회</a></li>
+                                                <li><a href="/menu-details">강의실 조회</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li><a href="/contact">문의하기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</a></li>
+                                        <% if (user) { %>
+                                        <li><a href="/logout">로그아웃</a></li>
+                                        <li><a href="/mypage">
+                                                <%= user.nickname %>페이지(
+                                                <%= user.id %>님) </a></li>
+
+
+                                        <% } else { %>
+                                        <li><a href="/my-account">로그인</a></li>
+                                        <li><a href="#">회원전용 페이지</a></li>
+                                        <% } %>
+
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <div class="mobile-menu d-block d-lg-none"></div>
+                    <!-- Mobile Menu -->
+                </div>
+            </div>
+            <!-- End Mainmenu Area -->
+        </header>
+        <!-- End Header Area -->
+
+         <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area bg-image--18">
+            <div class="ht__bradcaump__wrap d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">로그인</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="/">홈</a>
+                                  <span class="brd-separetor"><i class="zmdi zmdi-long-arrow-right"></i></span>
+                                  <span class="breadcrumb-item active">로그인</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area --> 
+        
+         <!-- Start My Account Area -->
+        <section class="my_account_area mt-50 pt--80 pb--55 bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <div class="my__account__wrapper">
+                            <h3 class="account__title">&nbsp;사용자 로그인</h3>
+                            <form action="#" onsubmit="return false;">
+                                <div class="account__form">
+                                    <div class="input__box">
+                                        <label>이메일 아이디 <span>*</span></label>
+                                        <input type="text" id="login_id">&nbsp;&nbsp;@gc.gachon.ac.kr
+                                    </div>
+                                    <div class="input__box">
+                                        <label>비밀번호<span>*</span></label>
+                                        <input type="password" id="login_password">
+                                    </div>
+                                    <div class="form__btn">
+                                        <button id="login">로그인</button>
+                                        &nbsp;<span id="message5"></span>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="my__account__wrapper">
+                            <h3 class="account__title">&nbsp;관리자 로그인</h3>
+                            <form action="#" onsubmit="return false;">
+                                <div class="account__form">
+                                    <div class="input__box">
+                                        <label>아이디 <span>*</span></label>
+                                        <input type="text" id="admin_id">&nbsp;&nbsp;
+                                    </div>
+                                    <div class="input__box">
+                                        <label>비밀번호<span>*</span></label>
+                                        <input type="password" id="admin_password">
+                                    </div>
+                                    <div class="form__btn">
+                                        <button id="admin_login">로그인</button>
+                                        &nbsp;<span id="message6"></span>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="my__account__wrapper">
+                            <h3 class="account__title">&nbsp;회원가입</h3>
+                            <form action="#" onsubmit="return false;">
+                                <div class="account__form">
+                                    <div class="input__box">
+                                        <label>이메일 아이디 <span>*</span></label>
+                                        <input type="text" id="to">&nbsp;&nbsp;@gc.gachon.ac.kr
+                                    </div>
+
+                                    <div class="form__btn">
+                                        <button id="send_email">인증</button><br>
+                                        <span id="message"></span>
+                                    </div>
+                                    <br>
+
+                                    <div class="input__box">
+                                        <label>인증번호 <span>*</span></label>
+                                        <input type="text" id="emailNum">
+                                    </div>
+
+                                    <div class="form__btn">
+                                        <button id="check_emailNum">확인</button><br>
+                                        <span id="message1"></span>
+                                    </div>
+
+                                    <div class="input__box">
+                                        <label>휴대폰 번호 <span>*</span></label>
+                                        <input type="text" id="phoneNum">
+                                    </div>
+
+                                    <div class="form__btn">
+                                        <button id="send_sms">인증</button>
+                                        <span id="message2"></span>
+                                    </div>
+                                    <br>
+
+                                    <div class="input__box">
+                                        <label>인증번호 <span>*</span></label>
+                                        <input type="text" id="smsNum">
+                                    </div>
+
+                                    <div class="form__btn">
+                                        <button id="check_smsNum">확인</button><br>
+                                        <span id="message3"></span>
+                                    </div><br>
+
+                                    <div class="input__box">
+                                        <label>비밀번호<span>*</span></label>
+                                        <input type="password" id="password">
+                                    </div>
+
+                                    <div class="input__box">
+                                        <label>비밀번호 확인<span>*</span></label>
+                                        <input type="password" id="password_check">
+                                    </div>
+
+                                    <div class="form__btn">
+                                        <button id="signup">회원가입</button>
+                                        &nbsp;<span id="message4"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End My Account Area -->
+
+        
+       
+       
+       
+       
+       
+       
+       <!-- Start Footer Area -->
+        <footer class="footer__area footer--1">
+            <div class="footer__wrapper bg__cat--1 section-padding--lg">
+                <div class="container">
+                    <div class="row">
+                   <div class="col-md-7 col-sm-4 col-xs-6">
+                        <div class="single-footer mt-0">
+                            <div class="logo">
+                                <img src="images/logo/logo.png" alt="">
+                                <br><br>
+                            </div>
+                            <div class="f-adress">
+                                <p><span>글로벌 캠퍼스 :</span> (13120) 경기도 성남시 수정구 성남대로 1342<br>
+                                <span>메디컬 캠퍼스 :</span> (21936) 인천광역시 연수구 함박뫼로 191</p>
+                            </div>
+                            <div class="hotel-contact">
+                                <p><span>글로벌 캠퍼스 : </span> 031-750-5114 <br>
+                                <span>메디컬 캠퍼스 : </span> 032-820-4000</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-md-3 hidden-sm col-xs-6">
+                        <div class="single-footer">
+                           <h3>바로가기</h3>
+                           <div class="quick-item">
+                                <ul>
+                                   <li><a href="http://gachon.ac.kr/main.jsp">가천대학교 홈페이지</a></li>
+                                   <li><a href="http://gachon.ac.kr/community/opencampus/03.jsp?boardType_seq=358">가천대학교 공지사항</a></li>
+                                   <li><a href="http://203.249.126.126:9090/servlets/jsp/timetable/frame.jsp">시간표 확인</a></li>
+                                   
+                                </ul>
+                           </div>
+                        </div>
+                    </div>
+                   
+                     <div class="copyright ptb-20 white_bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-15 col-sm-15 col-xs-12">
+                        <p>Copyright© 가천대 강의실 예약 시스템 2019.All right reserved.</p>
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        
+       
+        </footer>
+        <!-- End Footer Area -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div><!-- //Main wrapper --> 
+      
+    <!-- Placed js at the end of the document so the pages load faster -->
+
+     <!-- JS Files -->
+    <script src="js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/active.js"></script>
+    
+</body>
+
+</html>

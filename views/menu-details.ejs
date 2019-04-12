@@ -1,0 +1,298 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>가천대학교 강의실예약시스템</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="images/shortcut-icon.jpg">
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/style.css">
+
+	<!-- Cusom css -->
+   <link rel="stylesheet" href="css/custom.css">
+
+	<!-- Modernizer js -->
+	<script src="js/vendor/modernizr-3.5.0.min.js"></script>
+</head>
+<body>
+	<!--[if lte IE 9]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+	<![endif]-->
+
+	<!-- Add your site or application content here -->
+	
+	<!-- <div class="fakeloader"></div> -->
+
+	<!-- Main wrapper -->
+	<div class="wrapper" id="wrapper">
+       <!-- Start Header Area -->
+        <header class="htc__header bg--white">
+            <!-- Start Mainmenu Area -->
+            <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
+                            <div class="logo">
+                                <a href="/">
+                                    <img src="images/logo/logo.png" alt="logo images">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-sm-4 col-md-2 order-3 order-lg-2">
+                            <div class="main__menu__wrap">
+                                <nav class="main__menu__nav d-none d-lg-block">
+                                    <ul class="mainmenu">
+                                        <li class="drop"><a href="/">홈</a></li>
+
+                                        <li class="drop"><a href="/menu-list">예약하기</a>
+                                            <ul class="dropdown__menu">
+                                                <li><a href="/menu-list">강의동 조회</a></li>
+                                                <li><a href="/menu-details">강의실 조회</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li><a href="/contact">문의하기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</a></li>
+                                        <% if (user) { %>
+                                        <li><a href="/logout">로그아웃</a></li>
+                                        <li><a href="/mypage">
+                                                <%= user.nickname %>페이지(
+                                                <%= user.id %>님) </a></li>
+
+
+                                        <% } else { %>
+                                        <li><a href="/my-account">로그인</a></li>
+                                        <li><a href="#">회원전용 페이지</a></li>
+                                        <% } %>
+
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+
+                    <!-- Mobile Menu -->
+                    <div class="mobile-menu d-block d-lg-none"></div>
+                    <!-- Mobile Menu -->
+                </div>
+            </div>
+            <!-- End Mainmenu Area -->
+        </header>
+        <!-- End Header Area -->
+        
+        
+        
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area bg-image--18">
+            <div class="ht__bradcaump__wrap d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">강의실 조회</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="/">홈</a>
+                                  <span class="brd-separetor"><i class="zmdi zmdi-long-arrow-right"></i></span>
+                                  <span class="breadcrumb-item active">강의실 조회</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area --> 
+        
+        
+        
+        
+        <!-- Start Blog List View Area -->
+        <section class="blog__list__view section-padding--lg menudetails-right-sidebar bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 col-sm-12">
+                        <div class="food__menu__container">
+                            <div class="food__menu__inner d-flex flex-wrap flex-md-nowrap flex-lg-nowrap">
+                                <div class="food__menu__thumb">
+                                    <img class="im" src="images/menu-list/가천관.jpg" alt="images">
+                                </div>
+                                <div class="food__menu__details">
+                                    <div class="food__menu__content">
+                                        <h2>가천관 000호</h2>
+                                        <ul class="food__dtl__prize d-flex">
+                                            <li class="old__prize">2019년 4월 11일</li>
+                                            <li>총 6명</li>
+                                        </ul>
+                                       <!-- <ul class="rating">
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                        </ul> -->
+                                        
+                                        <p>사용 가능 시간 00:00~00:00 <br> 총 정원 00명</p>
+                                        <div class="product-action-wrap">
+                                            <div class="prodict-statas"><span>예약현황 : 진행중<br></span></div>
+                                            <div class="product-quantity">
+                                                <form id='myform' method='POST' action='#'>
+                                                   <!-- <div class="product-quantity">
+                                                        <div class="cart-plus-minus">
+                                                            <!--<input class="cart-plus-minus-box" type="text" name="qtybutton" value="02">-->
+                                                            <div class="add__to__cart__btn">
+                                                              
+                                                              
+                                                               
+                                                                <a class="food__btn" href="cart.html">예약 확정하기</a>
+                                                            </div>
+                                                           </form>
+                                                         </div>
+                                                        
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                            
+                            <!-- Start Product Descrive Area -->
+                            <div class="menu__descrive__area">
+                                <div class="menu__nav nav nav-tabs" role="tablist">
+                                   <!-- <a class="active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab">설명</a>
+                                   <!-- <a id="nav-breakfast-tab" data-toggle="tab" href="#nav-breakfast" role="tab">Reviews</a>-->
+                                </div>
+                                
+                                <!-- Start Tab Content -->
+                                <div class="menu__tab__content tab-content" id="nav-tabContent">
+                                   
+                                   
+                                   
+                                   
+                                    <!-- Start 설명Single Content -->
+                                    <div class="single__dec__content fade show active" id="nav-all" role="tabpanel">
+                                        <h2>경고</h2><br> <p><span>강의실을 사용한 후에는 강의실 비품을 제자리에 두시기 바라며 훼손 또는 분실시 책임을 물을 수 있으니 주의하시기 바랍니다.</span></p>
+                                    </div>
+                                    <!-- End Single Content -->
+                                    
+                                    </div>
+                                    <!-- End Single Content -->
+                                </div>
+                                <!-- End Tab Content -->
+                            
+                            </div>
+                            <!-- End Product Descrive Area -->
+                     
+                        
+                        
+                    
+                    
+                    <!--검색바-->
+                    <div class="col-lg-4 col-md-12 col-sm-12 md--mt--40 sm--mt--40">
+                        <div class="food__sidebar">
+                            <!-- Start Search Area -->
+                            <div class="food__search">
+                                <h4 class="side__title">검색하기</h4>
+                                <div class="serch__box">
+                                    <input type="text" placeholder="검색">
+                                    <a href="#"><i class="fa fa-search"></i></a>
+                                    
+                                </div>
+                                <br><br><br>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Search Area -->
+                    
+                
+            </div>
+        </section>
+        <!-- End Blog List View Area -->
+        
+        
+        
+        <!-- Start Footer Area -->
+        <footer class="footer__area footer--1">
+            <div class="footer__wrapper bg__cat--1 section-padding--lg">
+                <div class="container">
+                    <div class="row">
+                   <div class="col-md-7 col-sm-4 col-xs-6">
+                        <div class="single-footer mt-0">
+                            <div class="logo">
+                                <img src="images/logo/logo.png" alt="">
+                                <br><br>
+                            </div>
+                            <div class="f-adress">
+                                <p><span>글로벌 캠퍼스 :</span> (13120) 경기도 성남시 수정구 성남대로 1342<br>
+                                <span>메디컬 캠퍼스 :</span> (21936) 인천광역시 연수구 함박뫼로 191</p>
+                            </div>
+                            <div class="hotel-contact">
+                                <p><span>글로벌 캠퍼스 : </span> 031-750-5114 <br>
+                                <span>메디컬 캠퍼스 : </span> 032-820-4000</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-md-3 hidden-sm col-xs-6">
+                        <div class="single-footer">
+                           <h3>바로가기</h3>
+                           <div class="quick-item">
+                                <ul>
+                                   <li><a href="http://gachon.ac.kr/main.jsp">가천대학교 홈페이지</a></li>
+                                   <li><a href="http://gachon.ac.kr/community/opencampus/03.jsp?boardType_seq=358">가천대학교 공지사항</a></li>
+                                   <li><a href="http://203.249.126.126:9090/servlets/jsp/timetable/frame.jsp">시간표 확인</a></li>
+                                   
+                                </ul>
+                           </div>
+                        </div>
+                    </div>
+                   
+                     <div class="copyright ptb-20 white_bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-15 col-sm-15 col-xs-12">
+                        <p>Copyright© 가천대 강의실 예약 시스템 2019.All right reserved.</p>
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        
+       
+        </footer>
+        <!-- End Footer Area -->
+        
+       
+	</div><!-- //Main wrapper -->
+
+	<!-- JS Files -->
+	<script src="js/vendor/jquery-3.2.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/plugins.js"></script>
+	<script src="js/active.js"></script>
+	
+</body>
+</html>

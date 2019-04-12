@@ -1,0 +1,565 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>가천대학교 강의실예약시스템</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="images/shortcut-icon.jpg">
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Cusom css -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Modernizer js -->
+    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+	<![endif]-->
+
+    <!-- Add your site or application content here -->
+
+    <!-- <div class="fakeloader"></div> -->
+
+    <!-- Main wrapper -->
+    <div class="wrapper" id="wrapper">
+        <!-- Start Header Area -->
+        <header class="htc__header bg--white">
+            <!-- Start Mainmenu Area -->
+            <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
+                            <div class="logo">
+                                <a href="/">
+                                    <img src="images/logo/logo.png" alt="logo images">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-sm-4 col-md-2 order-3 order-lg-2">
+                            <div class="main__menu__wrap">
+                                <nav class="main__menu__nav d-none d-lg-block">
+                                    <ul class="mainmenu">
+                                        <li class="drop"><a href="/">홈</a></li>
+
+                                        <li class="drop"><a href="/menu-list">예약하기</a>
+                                            <ul class="dropdown__menu">
+                                                <li><a href="/menu-list">강의동 조회</a></li>
+                                                <li><a href="/menu-details">강의실 조회</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li><a href="/contact">문의하기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</a></li>
+                                        <% if (user) { %>
+                                        <li><a href="/logout">로그아웃</a></li>
+                                        <li><a href="/mypage">
+                                                <%= user.nickname %>페이지(
+                                                <%= user.id %>님) </a></li>
+
+
+                                        <% } else { %>
+                                        <li><a href="/my-account">로그인</a></li>
+                                        <li><a href="#">회원전용 페이지</a></li>
+                                        <% } %>
+
+                                    </ul>
+                                </nav>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <div class="mobile-menu d-block d-lg-none"></div>
+                    <!-- Mobile Menu -->
+                </div>
+            </div>
+            <!-- End Mainmenu Area -->
+        </header>
+        <!-- End Header Area -->
+        
+        
+        
+        
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area bg-image--18">
+            <div class="ht__bradcaump__wrap d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">마이 페이지</h2>
+                                <nav class="bradcaump-inner">
+                                    <a class="breadcrumb-item" href="/">홈</a>
+                                    <span class="brd-separetor"><i class="zmdi zmdi-long-arrow-right"></i></span>
+                                    <span class="breadcrumb-item active">마이페이지</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area -->
+        
+        
+        
+        
+        
+        <!-- 예약현황 목록 start -->
+        
+        <div class="cart-main-area section-padding--lg bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                        <form action="#">
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="title-top"><a href = "#"><font size = 5><b>예약현황 목록</b></font></a>
+                                          <br><br>
+                                            <th class="product-thumbnail">건물</th>
+                                            <th class="product-name">강의실</th>
+                                            <th class="product-price">신청인원</th>
+                                            <th class="product-quantity">사용날짜</th>
+                                            <th class="product-subtotal">프로젝터 사용</th>
+                                            <th class="product-remove">컴퓨터 사용</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/가천관.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">가천관 001호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">X</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/비전타워.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">비전타워 002호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">O</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">X</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/비전타워.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">비전타워 001호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">O</td>
+                                            <td class="product-subtotal">X</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/가천관.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">가천관 002호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">X</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/가천관.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">가천관 003호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">O</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                        
+                        
+                       <!-- <div class="cartbox__btn">
+                            <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
+                                <li><a href="#">Coupon Code</a></li>
+                                <li><a href="#">Apply Code</a></li>
+                                <li><a href="#">Update Cart</a></li>
+                                <li><a href="#">Check Out</a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+               
+                   <!-- <div class="row">
+                    <div class="col-lg-6 offset-lg-6">
+                        <div class="cartbox__total__area">
+                            <div class="cartbox-total d-flex justify-content-between">
+                                <ul class="cart__total__list">
+                                    <li>Cart total</li>
+                                    <li>Sub Total</li>
+                                </ul>
+                                <ul class="cart__total__tk">
+                                    <li>$70</li>
+                                    <li>$70</li>
+                                </ul>
+                            </div>
+                            <div class="cart__total__amount">
+                                <span>Grand Total</span>
+                                <span>$140</span>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <!-- 예약현황 목록 end -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- 즐겨찾기 목록 start -->
+        <div class="cart-main-area section-padding--lg bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                        <form action="#">
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="title-top"><a href = "#"><font size = 5><b>즐겨찾기 목록</b></font></a>
+                                          <br><br>
+                                            <th class="product-thumbnail">건물</th>
+                                            <th class="product-name">강의실</th>
+                                            <th class="product-price">수용인원</th>
+                                            <th class="product-quantity">사용가능 현황</th>
+                                            <th class="product-subtotal">프로젝터</th>
+                                            <th class="product-remove">컴퓨터</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/가천관.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">가천관 001호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">X</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/비전타워.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">비전타워 002호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">O</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">X</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/비전타워.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">비전타워 001호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">O</td>
+                                            <td class="product-subtotal">X</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/가천관.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">가천관 002호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">X</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="images/menu-list/가천관.jpg" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">가천관 003호</a></td>
+                                            <td class="product-price"><span class="amount">00명</span></td>
+                                            <td class="product-quantity">O</td>
+                                            <td class="product-subtotal">O</td>
+                                            <td class="product-remove"><a href="#">O</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                        
+                        
+                       <!-- <div class="cartbox__btn">
+                            <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
+                                <li><a href="#">Coupon Code</a></li>
+                                <li><a href="#">Apply Code</a></li>
+                                <li><a href="#">Update Cart</a></li>
+                                <li><a href="#">Check Out</a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+               
+                   <!-- <div class="row">
+                    <div class="col-lg-6 offset-lg-6">
+                        <div class="cartbox__total__area">
+                            <div class="cartbox-total d-flex justify-content-between">
+                                <ul class="cart__total__list">
+                                    <li>Cart total</li>
+                                    <li>Sub Total</li>
+                                </ul>
+                                <ul class="cart__total__tk">
+                                    <li>$70</li>
+                                    <li>$70</li>
+                                </ul>
+                            </div>
+                            <div class="cart__total__amount">
+                                <span>Grand Total</span>
+                                <span>$140</span>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <!-- 즐겨찾기 목록 end -->
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- Start Footer Area -->
+        <footer class="footer__area footer--1">
+            <div class="footer__wrapper bg__cat--1 section-padding--lg">
+                <div class="container">
+                    <div class="row">
+                   <div class="col-md-7 col-sm-4 col-xs-6">
+                        <div class="single-footer mt-0">
+                            <div class="logo">
+                                <img src="images/logo/logo.png" alt="">
+                                <br><br>
+                            </div>
+                            <div class="f-adress">
+                                <p><span>글로벌 캠퍼스 :</span> (13120) 경기도 성남시 수정구 성남대로 1342<br>
+                                <span>메디컬 캠퍼스 :</span> (21936) 인천광역시 연수구 함박뫼로 191</p>
+                            </div>
+                            <div class="hotel-contact">
+                                <p><span>글로벌 캠퍼스 : </span> 031-750-5114 <br>
+                                <span>메디컬 캠퍼스 : </span> 032-820-4000</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-md-3 hidden-sm col-xs-6">
+                        <div class="single-footer">
+                           <h3>바로가기</h3>
+                           <div class="quick-item">
+                                <ul>
+                                   <li><a href="http://gachon.ac.kr/main.jsp">가천대학교 홈페이지</a></li>
+                                   <li><a href="http://gachon.ac.kr/community/opencampus/03.jsp?boardType_seq=358">가천대학교 공지사항</a></li>
+                                   <li><a href="http://203.249.126.126:9090/servlets/jsp/timetable/frame.jsp">시간표 확인</a></li>
+                                   
+                                </ul>
+                           </div>
+                        </div>
+                    </div>
+                   
+                     <div class="copyright ptb-20 white_bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-15 col-sm-15 col-xs-12">
+                        <p>Copyright© 가천대 강의실 예약 시스템 2019.All right reserved.</p>
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        
+       
+        </footer>
+        <!-- End Footer Area -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- Login Form -->
+        <div class="accountbox-wrapper">
+            <div class="accountbox text-left">
+                <ul class="nav accountbox__filters" id="myTab" role="tablist">
+                    <li>
+                        <a class="active" id="log-tab" data-toggle="tab" href="#log" role="tab" aria-controls="log" aria-selected="true">Login</a>
+                    </li>
+                    <li>
+                        <a id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Register</a>
+                    </li>
+                </ul>
+                <div class="accountbox__inner tab-content" id="myTabContent">
+                    <div class="accountbox__login tab-pane fade show active" id="log" role="tabpanel" aria-labelledby="log-tab">
+                        <form action="#">
+                            <div class="single-input">
+                                <input class="cr-round--lg" type="text" placeholder="User name or email">
+                            </div>
+                            <div class="single-input">
+                                <input class="cr-round--lg" type="password" placeholder="Password">
+                            </div>
+                            <div class="single-input">
+                                <button type="submit" class="food__btn"><span>Go</span></button>
+                            </div>
+                            <div class="accountbox-login__others">
+                                <h6>Or login with</h6>
+                                <div class="social-icons">
+                                    <ul>
+                                        <li class="facebook"><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                                        <li class="twitter"><a href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                                        <li class="pinterest"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="accountbox__register tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <form action="#">
+                            <div class="single-input">
+                                <input class="cr-round--lg" type="text" placeholder="User name">
+                            </div>
+                            <div class="single-input">
+                                <input class="cr-round--lg" type="email" placeholder="Email address">
+                            </div>
+                            <div class="single-input">
+                                <input class="cr-round--lg" type="password" placeholder="Password">
+                            </div>
+                            <div class="single-input">
+                                <input class="cr-round--lg" type="password" placeholder="Confirm password">
+                            </div>
+                            <div class="single-input">
+                                <button type="submit" class="food__btn"><span>Sign Up</span></button>
+                            </div>
+                        </form>
+                    </div>
+                    <span class="accountbox-close-button"><i class="zmdi zmdi-close"></i></span>
+                </div>
+            </div>
+        </div><!-- //Login Form -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- Cartbox -->
+        <div class="cartbox-wrap">
+            <div class="cartbox text-right">
+                <button class="cartbox-close"><i class="zmdi zmdi-close"></i></button>
+                <div class="cartbox__inner text-left">
+                    <div class="cartbox__items">
+                        <!-- Cartbox Single Item -->
+                        <div class="cartbox__item">
+                            <div class="cartbox__item__thumb">
+                                <a href="product-details.html">
+                                    <img src="images/blog/sm-img/1.jpg" alt="small thumbnail">
+                                </a>
+                            </div>
+                            <div class="cartbox__item__content">
+                                <h5><a href="product-details.html" class="product-name">Vanila Muffin</a></h5>
+                                <p>Qty: <span>01</span></p>
+                                <span class="price">$15</span>
+                            </div>
+                            <button class="cartbox__item__remove">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div><!-- //Cartbox Single Item -->
+                        <!-- Cartbox Single Item -->
+                        <div class="cartbox__item">
+                            <div class="cartbox__item__thumb">
+                                <a href="product-details.html">
+                                    <img src="images/blog/sm-img/2.jpg" alt="small thumbnail">
+                                </a>
+                            </div>
+                            <div class="cartbox__item__content">
+                                <h5><a href="product-details.html" class="product-name">Wheat Bread</a></h5>
+                                <p>Qty: <span>01</span></p>
+                                <span class="price">$25</span>
+                            </div>
+                            <button class="cartbox__item__remove">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div><!-- //Cartbox Single Item -->
+                        <!-- Cartbox Single Item -->
+                        <div class="cartbox__item">
+                            <div class="cartbox__item__thumb">
+                                <a href="product-details.html">
+                                    <img src="images/blog/sm-img/3.jpg" alt="small thumbnail">
+                                </a>
+                            </div>
+                            <div class="cartbox__item__content">
+                                <h5><a href="product-details.html" class="product-name">Mixed Fruits Pie</a></h5>
+                                <p>Qty: <span>01</span></p>
+                                <span class="price">$30</span>
+                            </div>
+                            <button class="cartbox__item__remove">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div><!-- //Cartbox Single Item -->
+                    </div>
+                    <div class="cartbox__total">
+                        <ul>
+                            <li><span class="cartbox__total__title">Subtotal</span><span class="price">$70</span></li>
+                            <li class="shipping-charge"><span class="cartbox__total__title">Shipping Charge</span><span class="price">$05</span></li>
+                            <li class="grandtotal">Total<span class="price">$75</span></li>
+                        </ul>
+                    </div>
+                    <div class="cartbox__buttons">
+                        <a class="food__btn" href="cart.html"><span>View cart</span></a>
+                        <a class="food__btn" href="checkout.html"><span>Checkout</span></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- //Cartbox -->
+    </div><!-- //Main wrapper -->
+
+    <!-- JS Files -->
+    <script src="js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/active.js"></script>
+</body>
+
+</html>
