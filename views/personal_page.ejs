@@ -64,7 +64,7 @@
                                         <li><a href="/contact">문의하기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</a></li>
                                         <% if (user) { %>
                                         <li><a href="/logout">로그아웃</a></li>
-                                        <li><a href="/mypage">
+                                        <li><a href="/personal_page">
                                                 <%= user.nickname %>페이지(
                                                 <%= user.id %>님) </a></li>
 
@@ -102,11 +102,11 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="bradcaump__inner text-center">
-                                <h2 class="bradcaump-title">마이 페이지</h2>
+                                <h2 class="bradcaump-title"><%= user.nickname %>페이지</h2>
                                 <nav class="bradcaump-inner">
                                     <a class="breadcrumb-item" href="/">홈</a>
                                     <span class="brd-separetor"><i class="zmdi zmdi-long-arrow-right"></i></span>
-                                    <span class="breadcrumb-item active">마이페이지</span>
+                                    <span class="breadcrumb-item active"><%= user.nickname %>페이지</span>
                                 </nav>
                             </div>
                         </div>
@@ -117,7 +117,8 @@
         <!-- End Bradcaump area -->
         
         
-        
+        <% if( user.nickname == "마이"){  %>
+       
         
         
         <!-- 예약현황 목록 start -->
@@ -186,61 +187,14 @@
                             </div>
                         </form>
                         
-                        
-                       <!-- <div class="cartbox__btn">
-                            <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
-                                <li><a href="#">Coupon Code</a></li>
-                                <li><a href="#">Apply Code</a></li>
-                                <li><a href="#">Update Cart</a></li>
-                                <li><a href="#">Check Out</a></li>
-                            </ul>
-                        </div> -->
                     </div>
                 </div>
                
-                   <!-- <div class="row">
-                    <div class="col-lg-6 offset-lg-6">
-                        <div class="cartbox__total__area">
-                            <div class="cartbox-total d-flex justify-content-between">
-                                <ul class="cart__total__list">
-                                    <li>Cart total</li>
-                                    <li>Sub Total</li>
-                                </ul>
-                                <ul class="cart__total__tk">
-                                    <li>$70</li>
-                                    <li>$70</li>
-                                </ul>
-                            </div>
-                            <div class="cart__total__amount">
-                                <span>Grand Total</span>
-                                <span>$140</span>
-                            </div>
-                        </div>
-                    </div>-->
+                  
                 </div>
             </div>
         </div>
         <!-- 예약현황 목록 end -->
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         <!-- 즐겨찾기 목록 start -->
         <div class="cart-main-area section-padding--lg bg--white">
@@ -307,47 +261,49 @@
                             </div>
                         </form>
                         
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        <!-- 즐겨찾기 목록 end -->
+        
+        <% } else { %>
+        
+        <!--관리자페이지 내용  start-->
+        
+        <div class="cart-main-area section-padding--lg bg--white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                        <form action="#">
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="title-top"><a href = "#"><font size = 5><b>유저관리</b></font></a>
+                                          <br><br>
+                                            <th class="product-thumbnail"></th>
+                                            <th class="product-name"></th>
+                                            <th class="product-price"></th>
+                                            <th class="product-quantity"></th>
+                                            <th class="product-subtotal"></th>
+                                            <th class="product-remove"></th>
+                                        </tr>
+                                    </thead>
+                     
+                                </table>
+                            </div>
+                        </form>
                         
-                       <!-- <div class="cartbox__btn">
-                            <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
-                                <li><a href="#">Coupon Code</a></li>
-                                <li><a href="#">Apply Code</a></li>
-                                <li><a href="#">Update Cart</a></li>
-                                <li><a href="#">Check Out</a></li>
-                            </ul>
-                        </div> -->
                     </div>
                 </div>
                
-                   <!-- <div class="row">
-                    <div class="col-lg-6 offset-lg-6">
-                        <div class="cartbox__total__area">
-                            <div class="cartbox-total d-flex justify-content-between">
-                                <ul class="cart__total__list">
-                                    <li>Cart total</li>
-                                    <li>Sub Total</li>
-                                </ul>
-                                <ul class="cart__total__tk">
-                                    <li>$70</li>
-                                    <li>$70</li>
-                                </ul>
-                            </div>
-                            <div class="cart__total__amount">
-                                <span>Grand Total</span>
-                                <span>$140</span>
-                            </div>
-                        </div>
-                    </div>-->
+                  
                 </div>
             </div>
-        </div>
-        <!-- 즐겨찾기 목록 end -->
+        <!--관리자페이지 내용  end-->
         
-        
-        
-        
-        
-        
+        <% } %>        
         
         
         <!-- Start Footer Area -->

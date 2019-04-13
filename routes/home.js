@@ -69,12 +69,12 @@ router.get('/my-account', function (req, res) {
     }
 });
 
-router.get('/mypage', function (req, res) {
+router.get('/personal_page', function (req, res) {
 
     if (!req.session.user) {
-        res.render('mypage', {user: false});
+        res.render('personal_page', {user: false});
     } else {
-        res.render('mypage', {user: req.session.user });
+        res.render('personal_page', {user: req.session.user });
     }
 });
 
